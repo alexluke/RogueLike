@@ -20,6 +20,9 @@ namespace RogueLike
 		SpriteBatch spriteBatch;
 		WorldCanvas worldCanvas;
 
+		Texture2D pixelTexture;
+
+		Rectangle camera;
 		Room room;
 		Vector2 player;
 
@@ -56,6 +59,10 @@ namespace RogueLike
 			spriteBatch = new SpriteBatch(GraphicsDevice);
 			worldCanvas = new WorldCanvas(spriteBatch);
 
+			pixelTexture = new Texture2D(GraphicsDevice, 1, 1);
+			pixelTexture.SetData<Color>(new Color[] { Color.White });
+
+			camera = new Rectangle(0, 0, 200, 130);
 			room = new Room(new Rectangle(5, 8, 50, 30));
 			player = new Vector2(70, 70);
 		}
@@ -113,6 +120,11 @@ namespace RogueLike
 			rect.X = (int)(player.X - player.X % 10.0);
 			rect.Y = (int)(player.Y - player.Y % 10.0);
 			spriteBatch.Draw(pixel, rect, Color.ForestGreen);*/
+
+			spriteBatch.Draw(pixelTexture, new Rectangle(camera.Left, camera.Top, 1, camera.Height), Color.Black);
+			spriteBatch.Draw(pixelTexture, new Rectangle(camera.Right, camera.Top, 1, camera.Height), Color.Black);
+			spriteBatch.Draw(pixelTexture, new Rectangle(camera.Left, camera.Top, camera.Width, 1), Color.Black);
+			spriteBatch.Draw(pixelTexture, new Rectangle(camera.Left, camera.Bottom, camera.Width, 1), Color.Black);
 
 			spriteBatch.End();
 
