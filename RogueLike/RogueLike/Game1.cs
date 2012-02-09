@@ -22,9 +22,8 @@ namespace RogueLike
 
 		Texture2D pixelTexture;
 
-		Rectangle camera;
 		Room room;
-		Vector2 player;
+		Vector2 camera;
 
 		public Game1()
 		{
@@ -62,9 +61,8 @@ namespace RogueLike
 			pixelTexture = new Texture2D(GraphicsDevice, 1, 1);
 			pixelTexture.SetData<Color>(new Color[] { Color.White });
 
-			camera = new Rectangle(0, 0, 200, 130);
 			room = new Room(new Rectangle(5, 8, 50, 30));
-			player = new Vector2(70, 70);
+			camera = new Vector2(0, 0);
 		}
 
 		/// <summary>
@@ -94,9 +92,9 @@ namespace RogueLike
 				var frameTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 				leftStick.Normalize();
 
-				var speed = 100;
-				player.X += leftStick.X * frameTime * speed;
-				player.Y -= leftStick.Y * frameTime * speed;
+				var speed = 200;
+				camera.X += leftStick.X * frameTime * speed;
+				camera.Y -= leftStick.Y * frameTime * speed;
 			}
 
 			base.Update(gameTime);
@@ -121,10 +119,16 @@ namespace RogueLike
 			rect.Y = (int)(player.Y - player.Y % 10.0);
 			spriteBatch.Draw(pixel, rect, Color.ForestGreen);*/
 
-			spriteBatch.Draw(pixelTexture, new Rectangle(camera.Left, camera.Top, 1, camera.Height), Color.Black);
-			spriteBatch.Draw(pixelTexture, new Rectangle(camera.Right, camera.Top, 1, camera.Height), Color.Black);
-			spriteBatch.Draw(pixelTexture, new Rectangle(camera.Left, camera.Top, camera.Width, 1), Color.Black);
-			spriteBatch.Draw(pixelTexture, new Rectangle(camera.Left, camera.Bottom, camera.Width, 1), Color.Black);
+			var viewport = new Rectangle();
+			viewport.Width = 200;
+			viewport.Height = 130;
+			viewport.X = (int)(camera.X - viewport.Width / 2);
+			viewport.Y = (int)(camera.Y - viewport.Width / 2);
+
+			spriteBatch.Draw(pixelTexture, new Rectangle(viewport.Left, viewport.Top, 1, viewport.Height), Color.Black);
+			spriteBatch.Draw(pixelTexture, new Rectangle(viewport.Right, viewport.Top, 1, viewport.Height), Color.Black);
+			spriteBatch.Draw(pixelTexture, new Rectangle(viewport.Left, viewport.Top, viewport.Width, 1), Color.Black);
+			spriteBatch.Draw(pixelTexture, new Rectangle(viewport.Left, viewport.Bottom, viewport.Width, 1), Color.Black);
 
 			spriteBatch.End();
 
