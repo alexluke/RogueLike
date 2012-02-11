@@ -17,32 +17,58 @@ namespace RogueLike
 
 		Dictionary<Tile, Texture2D> textures;
 		SpriteBatch spriteBatch;
+		Dictionary<int, Tile> canvas;
+		int maxCanvasWidth = 46000;
+		int tileSize = 10;
 
 		public WorldCanvas(SpriteBatch spriteBatch)
 		{
 			this.textures = new Dictionary<Tile, Texture2D>();
 			this.spriteBatch = spriteBatch;
+			this.canvas = new Dictionary<int, Tile>();
 			var graphicsDevice = spriteBatch.GraphicsDevice;
 
-			var wall = new Texture2D(graphicsDevice, 10, 10);
+			var wall = new Texture2D(graphicsDevice, tileSize, tileSize);
 			var colorData = new Color[wall.Width * wall.Height];
 			for (var i = 0; i < colorData.Length; i++)
 				colorData[i] = Color.SaddleBrown;
 			wall.SetData<Color>(colorData);
 			textures[Tile.Wall] = wall;
 
-			var player = new Texture2D(graphicsDevice, 10, 10);
+			var player = new Texture2D(graphicsDevice, tileSize, tileSize);
 			for (var i = 0; i < colorData.Length; i++)
 				colorData[i] = Color.White;
 			player.SetData<Color>(colorData);
 			textures[Tile.Player] = player;
 		}
 
-		public void Draw(Tile tile, int x, int y)
+		public void PlaceTile(Tile tile, int x, int y)
 		{
-			var texture = textures[tile];
+			canvas[x * maxCanvasWidth + y] = tile;
+		}
 
-			this.spriteBatch.Draw(textures[tile], new Vector2(x * texture.Width, y * texture.Height), Color.White);
+		public void Draw(Rectangle viewableArea)
+		{
+			var gameArea = new Rectangle();
+
+			gameArea.Width = viewableArea.Width / tileSize;
+			gameArea.Height = viewableArea.Height / tileSize;
+			gameArea.X = viewableArea.X / tileSize;
+			gameArea.Y = viewableArea.Y / tileSize;
+
+			for (int x = gameArea.Left; x <= gameArea.Right; x++)
+			{
+				for (int y = gameArea.Top; y <= gameArea.Bottom; y++)
+				{
+					var key = x * maxCanvasWidth + y;
+					if (canvas.ContainsKey(key))
+					{
+						var texture = textures[canvas[key]];
+						var spot = new Vector2(x * tileSize - viewableArea.Left, y * tileSize - viewableArea.Top);
+						this.spriteBatch.Draw(texture, spot, Color.White);
+					}
+				}
+			}
 		}
 	}
 }

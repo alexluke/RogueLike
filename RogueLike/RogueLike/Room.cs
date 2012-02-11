@@ -24,7 +24,7 @@ namespace RogueLike
 				{
 					if (h == 0 || h == Area.Height - 1 || w == 0 || w == Area.Width - 1)
 					{
-						canvas.Draw(WorldCanvas.Tile.Wall, w + Area.Left, h + Area.Top);
+						canvas.PlaceTile(WorldCanvas.Tile.Wall, w + Area.Left, h + Area.Top);
 					}
 				}
 			}

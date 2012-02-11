@@ -106,30 +106,17 @@ namespace RogueLike
 		/// <param name="gameTime">Provides a snapshot of timing values.</param>
 		protected override void Draw(GameTime gameTime)
 		{
+			room.Draw(worldCanvas);
 			GraphicsDevice.Clear(Color.CornflowerBlue);
 
-			spriteBatch.Begin();
-
-			room.Draw(worldCanvas);
-
-			/*var rect = new Rectangle();
-			rect.Height = 10;
-			rect.Width = 10;
-			rect.X = (int)(player.X - player.X % 10.0);
-			rect.Y = (int)(player.Y - player.Y % 10.0);
-			spriteBatch.Draw(pixel, rect, Color.ForestGreen);*/
-
 			var viewport = new Rectangle();
-			viewport.Width = 200;
-			viewport.Height = 130;
+			viewport.Width = graphics.PreferredBackBufferWidth;
+			viewport.Height = graphics.PreferredBackBufferHeight;
 			viewport.X = (int)(camera.X - viewport.Width / 2);
 			viewport.Y = (int)(camera.Y - viewport.Width / 2);
 
-			spriteBatch.Draw(pixelTexture, new Rectangle(viewport.Left, viewport.Top, 1, viewport.Height), Color.Black);
-			spriteBatch.Draw(pixelTexture, new Rectangle(viewport.Right, viewport.Top, 1, viewport.Height), Color.Black);
-			spriteBatch.Draw(pixelTexture, new Rectangle(viewport.Left, viewport.Top, viewport.Width, 1), Color.Black);
-			spriteBatch.Draw(pixelTexture, new Rectangle(viewport.Left, viewport.Bottom, viewport.Width, 1), Color.Black);
-
+			spriteBatch.Begin();
+			worldCanvas.Draw(viewport);
 			spriteBatch.End();
 
 			base.Draw(gameTime);
