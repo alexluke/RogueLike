@@ -13,6 +13,7 @@ namespace RogueLike
 		{
 			Wall,
 			Player,
+			Floor,
 		}
 
 		Dictionary<Tile, Texture2D> textures;
@@ -40,6 +41,12 @@ namespace RogueLike
 				colorData[i] = Color.White;
 			player.SetData<Color>(colorData);
 			textures[Tile.Player] = player;
+
+			var floor = new Texture2D(graphicsDevice, tileSize, tileSize);
+			for (var i = 0; i < colorData.Length; i++)
+				colorData[i] = Color.Black;
+			floor.SetData<Color>(colorData);
+			textures[Tile.Floor] = floor;
 		}
 
 		public void PlaceTile(Tile tile, int x, int y)
