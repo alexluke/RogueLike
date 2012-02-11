@@ -22,7 +22,7 @@ namespace RogueLike
 
 		Texture2D pixelTexture;
 
-		Room room;
+		Level level;
 		Vector2 camera;
 
 		public Game1()
@@ -61,7 +61,7 @@ namespace RogueLike
 			pixelTexture = new Texture2D(GraphicsDevice, 1, 1);
 			pixelTexture.SetData<Color>(new Color[] { Color.White });
 
-			room = new Room(new Rectangle(5, 8, 50, 30));
+			level = new Level();
 			camera = new Vector2(0, 0);
 		}
 
@@ -106,7 +106,7 @@ namespace RogueLike
 		/// <param name="gameTime">Provides a snapshot of timing values.</param>
 		protected override void Draw(GameTime gameTime)
 		{
-			room.Draw(worldCanvas);
+			level.Draw(worldCanvas);
 			GraphicsDevice.Clear(Color.CornflowerBlue);
 
 			var viewport = new Rectangle();
