@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace RogueLike
 {
-	public class Room : IDrawable
+	public class Room
 	{
 		public Rectangle Area { get; set; }
 
