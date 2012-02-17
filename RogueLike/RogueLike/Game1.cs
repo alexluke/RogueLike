@@ -24,6 +24,8 @@ namespace RogueLike
 
 		Level level;
 		Vector2 camera;
+		float zoomLevel = 1.0f;
+		GamePadState previousState;
 
 		public Game1()
 		{
@@ -96,7 +98,14 @@ namespace RogueLike
 				camera.X += leftStick.X * frameTime * speed;
 				camera.Y -= leftStick.Y * frameTime * speed;
 			}
+			if (padState.Triggers.Right == 1 && previousState.Triggers.Right != 1)
+				zoomLevel += 0.1f;
+			else if (padState.Triggers.Left == 1 && previousState.Triggers.Left != 1)
+				zoomLevel -= 0.1f;
+			if (zoomLevel < 0.1f)
+				zoomLevel = 0.1f;
 
+			previousState = padState;
 			base.Update(gameTime);
 		}
 
@@ -116,7 +125,7 @@ namespace RogueLike
 			viewport.Y = (int)(camera.Y - viewport.Width / 2);
 
 			spriteBatch.Begin();
-			worldCanvas.Draw(viewport);
+			worldCanvas.Draw(viewport, zoomLevel);
 			spriteBatch.End();
 
 			base.Draw(gameTime);

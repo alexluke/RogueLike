@@ -54,14 +54,18 @@ namespace RogueLike
 			canvas[x * maxCanvasWidth + y] = tile;
 		}
 
-		public void Draw(Rectangle viewableArea)
+		public void Draw(Rectangle viewableArea, float zoomLevel = 1.0f)
 		{
 			var gameArea = new Rectangle();
+			var adjustedTileSize = (int)(tileSize * zoomLevel);
 
-			gameArea.Width = viewableArea.Width / tileSize;
-			gameArea.Height = viewableArea.Height / tileSize;
-			gameArea.X = viewableArea.X / tileSize;
-			gameArea.Y = viewableArea.Y / tileSize;
+			if (adjustedTileSize <= 0)
+				throw new ArgumentOutOfRangeException("zoomLevel");
+
+			gameArea.Width = viewableArea.Width / adjustedTileSize;
+			gameArea.Height = viewableArea.Height / adjustedTileSize;
+			gameArea.X = viewableArea.X / adjustedTileSize;
+			gameArea.Y = viewableArea.Y / adjustedTileSize;
 
 			for (int x = gameArea.Left; x <= gameArea.Right; x++)
 			{
@@ -71,8 +75,13 @@ namespace RogueLike
 					if (canvas.ContainsKey(key))
 					{
 						var texture = textures[canvas[key]];
-						var spot = new Vector2(x * tileSize - viewableArea.Left, y * tileSize - viewableArea.Top);
-						this.spriteBatch.Draw(texture, spot, Color.White);
+						var dest = new Rectangle();
+						dest.X= x * adjustedTileSize - viewableArea.Left;
+						dest.Y = y * adjustedTileSize - viewableArea.Top;
+						dest.Width = adjustedTileSize;
+						dest.Height = adjustedTileSize;
+
+						this.spriteBatch.Draw(texture, dest, Color.White);
 					}
 				}
 			}
