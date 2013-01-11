@@ -23,6 +23,7 @@ namespace RogueLike
 		Texture2D pixelTexture;
 
 		Level level;
+		Player player;
 		Vector2 camera;
 		float zoomLevel = 1.0f;
 		GamePadState previousState;
@@ -65,6 +66,7 @@ namespace RogueLike
 
 			level = new Level();
 			camera = new Vector2(0, 0);
+			player = new Player(level.Rooms.First());
 		}
 
 		/// <summary>
@@ -116,6 +118,7 @@ namespace RogueLike
 		protected override void Draw(GameTime gameTime)
 		{
 			level.Draw(worldCanvas);
+			player.Draw(worldCanvas);
 			GraphicsDevice.Clear(Color.CornflowerBlue);
 
 			var viewport = new Rectangle();
