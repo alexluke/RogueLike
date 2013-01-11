@@ -19,8 +19,8 @@ namespace RogueLike
 			Rooms.Add(new Room(new Rectangle(60, 10, 20, 40)));
 			Rooms.Add(new Room(new Rectangle(2, 60, 20, 10)));
 
-			Corridors.Add(new Corridor(new Vector2(54, 20), new Vector2(61, 20)));
-			Corridors.Add(new Corridor(new Vector2(12, 37), new Vector2(12, 61)));
+			Corridors.Add(new Corridor(new Point(54, 20), new Point(61, 20)));
+			Corridors.Add(new Corridor(new Point(12, 37), new Point(12, 61)));
 		}
 
 		public void Draw(WorldCanvas canvas)

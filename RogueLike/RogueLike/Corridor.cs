@@ -8,10 +8,10 @@ namespace RogueLike
 {
 	public class Corridor
 	{
-		public Vector2 Start { get; set; }
-		public Vector2 End { get; set; }
+		public Point Start { get; set; }
+		public Point End { get; set; }
 
-		public Corridor(Vector2 start, Vector2 end)
+		public Corridor(Point start, Point end)
 		{
 			Start = start;
 			End = end;
@@ -22,8 +22,8 @@ namespace RogueLike
 			if (Start.X == End.X)
 			{
 				// vertical line
-				var x = (int)Start.X;
-				for (var y = (int)Start.Y; y < (int)End.Y; y++)
+				var x = Start.X;
+				for (var y = Start.Y; y < End.Y; y++)
 				{
 					canvas.PlaceTile(WorldCanvas.Tile.Wall, x - 1, y);
 					canvas.PlaceTile(WorldCanvas.Tile.Floor, x, y);
@@ -33,8 +33,8 @@ namespace RogueLike
 			else if (Start.Y == End.Y)
 			{
 				// horrizontal line
-				var y = (int)Start.Y;
-				for (var x = (int)Start.X; x < (int)End.X; x++)
+				var y = Start.Y;
+				for (var x = Start.X; x < End.X; x++)
 				{
 					canvas.PlaceTile(WorldCanvas.Tile.Wall, x, y - 1);
 					canvas.PlaceTile(WorldCanvas.Tile.Floor, x, y);
