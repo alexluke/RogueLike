@@ -90,16 +90,30 @@ namespace RogueLike
 			if (padState.Buttons.Back == ButtonState.Pressed)
 				this.Exit();
 
+			var frameTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+
 			var leftStick = padState.ThumbSticks.Left;
 			if (leftStick.Length() > 0)
 			{
-				var frameTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 				leftStick.Normalize();
 
 				var speed = 200;
 				camera.X += leftStick.X * frameTime * speed;
 				camera.Y -= leftStick.Y * frameTime * speed;
 			}
+
+			var rightStick = padState.ThumbSticks.Right;
+			if (rightStick.Length() > 0)
+			{
+				rightStick.Normalize();
+
+				rightStick.X *= frameTime;
+				rightStick.Y *= frameTime;
+
+				player.Move(rightStick);
+			}
+
+
 			if (padState.Triggers.Right == 1 && previousState.Triggers.Right != 1)
 				zoomLevel += 0.1f;
 			else if (padState.Triggers.Left == 1 && previousState.Triggers.Left != 1)

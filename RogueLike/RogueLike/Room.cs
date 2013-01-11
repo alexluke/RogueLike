@@ -31,5 +31,12 @@ namespace RogueLike
 				}
 			}
 		}
+
+		public bool Contains(Point point)
+		{
+			var roomInterior = this.Area;
+			roomInterior.Inflate(-1, -1);
+			return roomInterior.Contains(point);
+		}
 	}
 }
